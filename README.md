@@ -10,10 +10,4 @@
 
 Aplicação mobile de controle financeiro, onde é possível registrar gastos e ganhos e ter uma visão ampla sobre sua vida financeira.
 
-Essa aplicação usa (linguagens de programação)
-
-
-
-
-
-![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
+![Logo do FinanceirAPP](https://i.ibb.co/DfTsm4P3/logo-complete.png)
