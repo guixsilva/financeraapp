@@ -1,47 +1,51 @@
-CREATE TABLE transactions (
+CREATE TABLE movimentacoes (
     id_movimentacao INT PRIMARY KEY,
-    valor_movimentacao DECIMAL(7, 2),
-    titulo_movimentacao VARCHAR(50),
-    descricao_movimentacao VARCHAR(100),
-    data_movimentacao DATE,
-    id_etiqueta INT,
+    valor_movimentacao NUMERIC(11, 2),
+    titulo_movimentacao VARCHAR(30),
+    descricao_movimentacao VARCHAR(50),
+    data_movimentacao DATE, --DADO GENÉRIOCO
     id_saida INT,
     id_entrada INT,
     id_reserva INT
 );
 
-CREATE TABLE expense (
+CREATE TABLE saida (
     id_saida INT PRIMARY KEY,
     parcelamento INT,
-    saida_recorrente BOOLEAN
+    saida_recorrente INTEGER --boolean
 );
 
-CREATE TABLE income (
+CREATE TABLE entrada (
     id_entrada INT PRIMARY KEY,
-    entrada_recorrente BOOLEAN
+    entrada_recorrente INTEGER --boolean
 );
 
-CREATE TABLE tags (
+CREATE TABLE etiquetas (
     id_etiqueta INT PRIMARY KEY,
     nome_etiqueta VARCHAR(20) UNIQUE,
     tipo_etiqueta VARCHAR(20)
-    cor_etiqueta VARCHAR(20)
 );
 
-CREATE TABLE reserves (
+CREATE TABLE reservas (
     id_reserva INT PRIMARY KEY,
-    titulo_reserva VARCHAR(50) UNIQUE,
-    descricao_reserva VARCHAR(100),
-    valor_atual_reserva DECIMAL(7, 2),
-    valor_max_reserva DECIMAL(7, 2)
+    titulo_reserva VARCHAR(30) UNIQUE,
+    descricao_reserva VARCHAR(50),
+    valor_atual_reserva NUMERIC(11, 2),
+    valor_max_reserva NUMERIC(11,2)
 );
 
-CREATE TABLE installments (
+CREATE TABLE parcelamento (
     id_parcela INT PRIMARY KEY,
     id_saida INT,
     num_parcela INT,
-    valor_parcela DECIMAL(7, 2),
-    data_vencimento_parcela DATE
+    valor_parcela NUMERIC(11,2),
+    data_vencimento_parcela DATE -- DADO GENÉRICO
+);
+
+CREATE TABLE etiquetas de transações (
+    id_movimentação INT,
+    id_etiqueta INT,
+    PRIMARY KEY (id_etiqueta, id_movimentação)
 );
  
 ALTER TABLE movimentacoes ADD CONSTRAINT FK_movimentacoes_2
@@ -63,3 +67,11 @@ ALTER TABLE movimentacoes ADD CONSTRAINT FK_movimentacoes_5
 ALTER TABLE parcelamento ADD CONSTRAINT FK_parcelamento_2
     FOREIGN KEY (id_saida)
     REFERENCES saida (id_saida);
+ 
+ALTER TABLE etiquetas de transações ADD CONSTRAINT FK_etiquetas de transações_2
+    FOREIGN KEY (id_etiqueta)
+    REFERENCES etiquetas (id_etiqueta);
+ 
+ALTER TABLE etiquetas de transações ADD CONSTRAINT FK_etiquetas de transações_3
+    FOREIGN KEY (id_movimentação)
+    REFERENCES movimentacoes (id_movimentacao);
