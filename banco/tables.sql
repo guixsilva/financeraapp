@@ -3,10 +3,13 @@ CREATE TABLE movimentacoes (
     valor_movimentacao NUMERIC(11, 2),
     titulo_movimentacao VARCHAR(30),
     descricao_movimentacao VARCHAR(50),
-    data_movimentacao DATE, --DADO GENÉRIOCO
+    data_movimentacao DATE,
     id_saida INT,
     id_entrada INT,
-    id_reserva INT
+    id_reserva INT,
+    FOREIGN KEY (id_saida) REFERENCES saida (id_saida),
+    FOREIGN KEY (id_entrada) REFERENCES entrada (id_entrada),
+    FOREIGN KEY (id_reserva) REFERENCES reservas (id_reserva)
 );
 
 CREATE TABLE saida (
@@ -39,39 +42,14 @@ CREATE TABLE parcelamento (
     id_saida INT,
     num_parcela INT,
     valor_parcela NUMERIC(11,2),
-    data_vencimento_parcela DATE -- DADO GENÉRICO
+    data_vencimento_parcela DATE,
+    FOREIGN KEY (id_saida) REFERENCES saida (id_saida)
 );
 
-CREATE TABLE etiquetas de transações (
+CREATE TABLE "etiquetas de transações" (
     id_movimentação INT,
     id_etiqueta INT,
-    PRIMARY KEY (id_etiqueta, id_movimentação)
+    PRIMARY KEY (id_etiqueta, id_movimentação),
+    FOREIGN KEY (id_etiqueta) REFERENCES etiquetas (id_etiqueta),
+    FOREIGN KEY (id_movimentação) REFERENCES movimentacoes (id_movimentacao)
 );
- 
-ALTER TABLE movimentacoes ADD CONSTRAINT FK_movimentacoes_2
-    FOREIGN KEY (id_saida)
-    REFERENCES saida (id_saida);
- 
-ALTER TABLE movimentacoes ADD CONSTRAINT FK_movimentacoes_3
-    FOREIGN KEY (id_entrada)
-    REFERENCES entrada (id_entrada);
- 
-ALTER TABLE movimentacoes ADD CONSTRAINT FK_movimentacoes_4
-    FOREIGN KEY (id_etiqueta)
-    REFERENCES etiquetas (id_etiqueta);
- 
-ALTER TABLE movimentacoes ADD CONSTRAINT FK_movimentacoes_5
-    FOREIGN KEY (id_reserva)
-    REFERENCES reservas (id_reserva);
- 
-ALTER TABLE parcelamento ADD CONSTRAINT FK_parcelamento_2
-    FOREIGN KEY (id_saida)
-    REFERENCES saida (id_saida);
- 
-ALTER TABLE etiquetas de transações ADD CONSTRAINT FK_etiquetas de transações_2
-    FOREIGN KEY (id_etiqueta)
-    REFERENCES etiquetas (id_etiqueta);
- 
-ALTER TABLE etiquetas de transações ADD CONSTRAINT FK_etiquetas de transações_3
-    FOREIGN KEY (id_movimentação)
-    REFERENCES movimentacoes (id_movimentacao);
