@@ -1,55 +1,54 @@
-CREATE TABLE movimentacoes (
-    id_movimentacao INT PRIMARY KEY,
-    valor_movimentacao NUMERIC(11, 2),
-    titulo_movimentacao VARCHAR(30),
-    descricao_movimentacao VARCHAR(50),
-    data_movimentacao DATE,
-    id_saida INT,
-    id_entrada INT,
-    id_reserva INT,
-    FOREIGN KEY (id_saida) REFERENCES saida (id_saida),
-    FOREIGN KEY (id_entrada) REFERENCES entrada (id_entrada),
-    FOREIGN KEY (id_reserva) REFERENCES reservas (id_reserva)
+CREATE TABLE transactions (
+    id_transaction INTEGER PRIMARY KEY,
+    transaction_amount REAL,
+    transaction_title TEXT,
+    transaction_description TEXT,
+    transaction_date DATE, /* generic data */
+    id_expense INTEGER,
+    id_income INTEGER,
+    id_reserve INTEGER,
+    FOREIGN KEY (id_expense) REFERENCES expenses (id_expense),
+    FOREIGN KEY (id_income) REFERENCES incomes (id_income),
+    FOREIGN KEY (id_reserve) REFERENCES reserves (id_reserve)
 );
 
-CREATE TABLE saida (
-    id_saida INT PRIMARY KEY,
-    parcelamento INT,
-    saida_recorrente INTEGER --boolean
+CREATE TABLE expenses (
+    id_expense INTEGER PRIMARY KEY,
+    id_installment INTEGER, 
+    recurring_expense INTEGER, /* boolean */
+    FOREIGN KEY (id_installment) REFERENCES installments (id_installment)
 );
 
-CREATE TABLE entrada (
-    id_entrada INT PRIMARY KEY,
-    entrada_recorrente INTEGER --boolean
+CREATE TABLE incomes (
+    id_income INTEGER PRIMARY KEY,
+    recurring_income INTEGER /* boolean */
 );
 
-CREATE TABLE etiquetas (
-    id_etiqueta INT PRIMARY KEY,
-    nome_etiqueta VARCHAR(20) UNIQUE,
-    tipo_etiqueta VARCHAR(20)
+CREATE TABLE tags (
+    id_tag INTEGER PRIMARY KEY,
+    tag_name TEXT UNIQUE,
+    tag_type TEXT
 );
 
-CREATE TABLE reservas (
-    id_reserva INT PRIMARY KEY,
-    titulo_reserva VARCHAR(30) UNIQUE,
-    descricao_reserva VARCHAR(50),
-    valor_atual_reserva NUMERIC(11, 2),
-    valor_max_reserva NUMERIC(11,2)
+CREATE TABLE reserves (
+    id_reserve INTEGER PRIMARY KEY,
+    reserve_title TEXT UNIQUE,
+    reserve_description TEXT,
+    current_reserve_amount REAL,
+    max_reserve_amount REAL
 );
 
-CREATE TABLE parcelamento (
-    id_parcela INT PRIMARY KEY,
-    id_saida INT,
-    num_parcela INT,
-    valor_parcela NUMERIC(11,2),
-    data_vencimento_parcela DATE,
-    FOREIGN KEY (id_saida) REFERENCES saida (id_saida)
+CREATE TABLE installments (
+    id_installment INTEGER PRIMARY KEY,
+    installment_number INTEGER,
+    installment_amount REAL,
+    installment_due_date DATE
 );
 
-CREATE TABLE "etiquetas de transações" (
-    id_movimentação INT,
-    id_etiqueta INT,
-    PRIMARY KEY (id_etiqueta, id_movimentação),
-    FOREIGN KEY (id_etiqueta) REFERENCES etiquetas (id_etiqueta),
-    FOREIGN KEY (id_movimentação) REFERENCES movimentacoes (id_movimentacao)
+CREATE TABLE tags_transactions (
+    id_transaction INTEGER,
+    id_tag INTEGER,
+    PRIMARY KEY (id_tag, id_transaction),
+    FOREIGN KEY (id_tag) REFERENCES tags (id_tag),
+    FOREIGN KEY (id_transaction) REFERENCES transactions (id_transaction)
 );
