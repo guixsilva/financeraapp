@@ -17,9 +17,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             FinanceraTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavGraph(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    NavGraph(modifier = Modifier.padding(innerPadding))
                 }
             }
         }

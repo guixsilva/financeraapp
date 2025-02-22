@@ -1,14 +1,17 @@
 package com.example.financera
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 
 @Composable
 fun TelaInicial(navController: NavController, modifier: Modifier = Modifier) {
@@ -46,7 +49,7 @@ fun TelaInicial(navController: NavController, modifier: Modifier = Modifier) {
         )
 
         Button(
-            onClick = { navController.navigate("outra_tela") }, 
+            onClick = { navController.navigate("tela_database") },
             colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = Color.Black)
         ) {
             Text("Começar")
