@@ -1,4 +1,4 @@
-package com.example.financera
+package com.example.financera.view
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,12 +18,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.financera.viewmodel.NewDatabaseViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NewDatabase(navController: NavController, modifier: Modifier = Modifier) {
     var username by remember { mutableStateOf("") }
     val databasename by remember { derivedStateOf { "$username"+"_database" } }
+    val viewModel: NewDatabaseViewModel = viewModel()
+    val context = androidx.compose.ui.platform.LocalContext.current
 
     Scaffold(
         topBar = {
@@ -67,7 +71,10 @@ fun NewDatabase(navController: NavController, modifier: Modifier = Modifier) {
             }
 
             Button(
-                onClick = { navController.navigate("") },
+                onClick = {
+                    viewModel.createDatabase(context, databasename)
+                    navController.navigate("tela_inicial")
+                },
                 colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = Color.Black),
                 modifier = Modifier.align(
                     alignment = Alignment.CenterHorizontally
@@ -75,8 +82,6 @@ fun NewDatabase(navController: NavController, modifier: Modifier = Modifier) {
             ) {
                 Text("Criar Banco")
             }
-
         }
-
     }
 }

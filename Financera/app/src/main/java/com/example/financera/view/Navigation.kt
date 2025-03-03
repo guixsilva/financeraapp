@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.unit.dp
+import com.example.financera.view.NewDatabase
 
 @Composable
 fun NavGraph(startDestination: String = "tela_inicial", modifier: Modifier = Modifier) {
