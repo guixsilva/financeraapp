@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.compose.ui.unit.dp
 import com.example.financera.view.NewDatabase
+import com.example.financera.view.ScanningScreen
 
 @Composable
 fun NavGraph(startDestination: String = "tela_inicial", modifier: Modifier = Modifier) {
@@ -16,8 +17,8 @@ fun NavGraph(startDestination: String = "tela_inicial", modifier: Modifier = Mod
         composable("tela_inicial") {
             TelaInicial(navController, modifier = Modifier.padding(16.dp))
         }
-        composable("tela_database") {
-            NewDatabase(navController, modifier = Modifier.padding(16.dp));
+        composable("tela_scanning") {
+            ScanningScreen(navController, modifier = Modifier.padding(16.dp))
         }
     }
 }

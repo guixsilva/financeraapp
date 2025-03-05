@@ -49,7 +49,7 @@ fun TelaInicial(navController: NavController, modifier: Modifier = Modifier) {
         )
 
         Button(
-            onClick = { navController.navigate("tela_database") },
+            onClick = { navController.navigate("tela_scanning") },
             colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = Color.Black)
         ) {
             Text("Começar")
