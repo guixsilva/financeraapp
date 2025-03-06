@@ -1,5 +1,6 @@
 package com.example.financera.view
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -46,6 +47,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.financera.R
 import com.example.financera.viewmodel.ScanningViewModel
+import kotlinx.coroutines.delay
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -59,9 +61,11 @@ fun ScanningScreen(navController: NavController, modifier: Modifier = Modifier) 
     }
 
     LaunchedEffect(databaseFiles) {
+        delay(500)
         if (databaseFiles.isNotEmpty() || viewModel.databaseFiles.value.isNotEmpty()) {
-            val databaseFilesJson = Json.encodeToString(databaseFiles.map { it.absolutePath })
-            navController.navigate("databases_screen/$databaseFilesJson")
+            val databaseFilesJson = databaseFiles.map { it.absolutePath }.joinToString(",")
+            val encodedJson = Uri.encode(databaseFilesJson)
+            navController.navigate("tela_databases/$encodedJson")
         }
     }
 
