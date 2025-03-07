@@ -57,7 +57,45 @@ fun DatabasesScreen(navController: NavController, databaseFilesJson: String, mod
     val databaseFiles = databaseFilePaths.map { File(it) }
 
 
-    Text(
-        "Olá!"
-    )
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Bancos disponíveis", fontSize = 20.sp) },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Voltar")
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text("Encontramos bancos de dados criados anteriormente. Verifique se gostaria de usá-los ou criar um novo."),
+            
+
+            databaseFiles.forEach{
+                file -> val fileSize = viewModel.databaseFileSize(file.length())
+
+                DatabaseCard(navController, file.name, fileSize)
+            }
+
+            Button(
+                onClick = {
+                    viewModel.createDatabase(context, databasename)
+                    navController.navigate("tela_inicial")
+                },
+                colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = Color.Black),
+                modifier = Modifier.align(
+                    alignment = Alignment.CenterHorizontally
+                )
+            ) {
+                Text("Criar Banco")
+            }
+        }
+    }
 }

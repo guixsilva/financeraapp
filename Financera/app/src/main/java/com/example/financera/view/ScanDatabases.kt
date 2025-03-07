@@ -54,7 +54,7 @@ import kotlinx.serialization.json.Json
 fun ScanningScreen(navController: NavController, modifier: Modifier = Modifier) {
     val viewModel: ScanningViewModel = viewModel()
     val context = LocalContext.current
-    val databaseFiles by viewModel.databaseFiles.collectAsState()
+    val databaseFiles by viewModel.databaseFiles.collectAsState() // coleta lista de databases
 
     LaunchedEffect(Unit) {
         viewModel.scanDatabases(context)
@@ -62,10 +62,13 @@ fun ScanningScreen(navController: NavController, modifier: Modifier = Modifier) 
 
     LaunchedEffect(databaseFiles) {
         delay(500)
+        //cria string json quando há databases criados
         if (databaseFiles.isNotEmpty() || viewModel.databaseFiles.value.isNotEmpty()) {
             val databaseFilesJson = databaseFiles.map { it.absolutePath }.joinToString(",")
             val encodedJson = Uri.encode(databaseFilesJson)
             navController.navigate("tela_databases/$encodedJson")
+        }else{
+            navController.navigate("tela_newdatabase")
         }
     }
 
@@ -90,7 +93,7 @@ fun ScanningScreen(navController: NavController, modifier: Modifier = Modifier) 
                 Text(
                     "Analisando se há bancos disponíveis...",
                     modifier = Modifier.wrapContentSize(),
-                    fontSize = 25.sp,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Light,
                     textAlign = TextAlign.Center
                 )
