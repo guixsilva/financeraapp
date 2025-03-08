@@ -61,7 +61,7 @@ fun ScanningScreen(navController: NavController, modifier: Modifier = Modifier) 
     }
 
     LaunchedEffect(databaseFiles) {
-        delay(500)
+        delay(5000)
         //cria string json quando há databases criados
         if (databaseFiles.isNotEmpty() || viewModel.databaseFiles.value.isNotEmpty()) {
             val databaseFilesJson = databaseFiles.map { it.absolutePath }.joinToString(",")

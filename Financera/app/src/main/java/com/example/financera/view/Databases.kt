@@ -4,25 +4,38 @@ import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.financera.viewmodel.NewDatabaseViewModel
 import com.example.financera.viewmodel.ScanningViewModel
 import java.io.File
 
 @Composable
-fun DatabaseCard(navController: NavController, modifier: Modifier = Modifier, databaseName: String, fileSize: String) {
+fun DatabaseCard(navController: NavController, databaseName: String, fileSize: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -47,10 +60,12 @@ fun DatabaseCard(navController: NavController, modifier: Modifier = Modifier, da
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatabasesScreen(navController: NavController, databaseFilesJson: String, modifier: Modifier = Modifier){
     val context = LocalContext.current
     val viewModel: ScanningViewModel = viewModel()
+    val viewModel2: NewDatabaseViewModel= viewModel()
 
     val decodedJson = Uri.decode(databaseFilesJson)
     val databaseFilePaths = decodedJson.split(",")
@@ -75,7 +90,8 @@ fun DatabasesScreen(navController: NavController, databaseFilesJson: String, mod
                 .padding(innerPadding),
             horizontalAlignment = Alignment.Start
         ) {
-            Text("Encontramos bancos de dados criados anteriormente. Verifique se gostaria de usá-los ou criar um novo."),
+            Text("Encontramos bancos de dados já criados. Verifique se gostaria de usá-los ou criar um novo.",
+                modifier = Modifier.padding(horizontal = 16.dp))
             
 
             databaseFiles.forEach{
@@ -86,15 +102,14 @@ fun DatabasesScreen(navController: NavController, databaseFilesJson: String, mod
 
             Button(
                 onClick = {
-                    viewModel.createDatabase(context, databasename)
-                    navController.navigate("tela_inicial")
+                    navController.navigate("tela_newdatabase")
                 },
                 colors = ButtonDefaults.buttonColors(contentColor = Color.White, containerColor = Color.Black),
                 modifier = Modifier.align(
                     alignment = Alignment.CenterHorizontally
                 )
             ) {
-                Text("Criar Banco")
+                Text("Criar Banco novo")
             }
         }
     }
